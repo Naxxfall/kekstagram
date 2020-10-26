@@ -31,7 +31,7 @@
 
   function hideUploadFileOverlay() {
     imgUploadOverlay.classList.add("hidden");
-    uploadFile.uploadFileInput.value = null;
+    uploadForm.reset();
     uploadSubmit.removeEventListener("click", uploadSubmitClickHandler);
     scalePin.removeEventListener("mousedown", scalePinMousedownHandler);
     imgUploadEffects.removeEventListener("change", effectChangeHandler);
@@ -167,15 +167,17 @@
       throw err;
     }
   }
-  window.uploadSubmitClickHandler = function() {
+  window.uploadSubmitClickHandler = function(evt) {
+    evt.preventDefault();
     uploadHashtags.setCustomValidity("");
     if (uploadHashtags.value !== "") {
       try {
         verifyHashtags(uploadHashtags.value);
-        uploadForm.submit();
       } catch (err) {
         uploadHashtags.setCustomValidity(err.message.toString());
+        return;
       }
     }
+    backend.save(new FormData(uploadForm), hideUploadFileOverlay, backend.showError);
   }
 })();

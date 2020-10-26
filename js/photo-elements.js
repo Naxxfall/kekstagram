@@ -48,5 +48,6 @@
       };
     }
   }
-  generatePhotoElements();
+  //generatePhotoElements();
+
 })();

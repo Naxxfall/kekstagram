@@ -3,6 +3,7 @@
 (function(){
   window.picture = {};
   picture.picturesContainer = document.querySelector(".pictures");
+  window.photoElements = [];
   var pictureTemplate = document.querySelector("#picture").content.querySelector(".picture__link");
   var fragment = document.createDocumentFragment();
   function renderPicture(picture) {
@@ -18,7 +19,11 @@
     }
     picture.picturesContainer.appendChild(fragment);
   }
-  showMiniatures();
+  function loadSuccess(elements){
+    window.photoElements = elements;
+    showMiniatures();
+  }
+  backend.load(loadSuccess, backend.showError);
   picture.pictureClickHandler = function(evt){
     if (evt.target.classList.contains("picture__img"))
     {

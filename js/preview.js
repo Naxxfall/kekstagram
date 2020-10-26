@@ -17,13 +17,22 @@
       }
     }
     removeComments();
-    function renderComment (comment){
+    function renderRandomComment (comment){
       var commentElement = commentTemplate.cloneNode(true);
       commentElement.querySelector(".social__picture").src = "img/avatar-" + Math.ceil(Math.random() * 6).toString() + ".svg";
       commentElement.querySelector(".social__picture").alt = "Аватар комментатора фотографии";
       commentElement.querySelector(".social__picture").width = "35";
       commentElement.querySelector(".social__picture").height = "35";
       commentElement.querySelector(".social__text").textContent = comment;
+      return commentElement;
+    }
+    function renderComment (comment){
+      var commentElement = commentTemplate.cloneNode(true);
+      commentElement.querySelector(".social__picture").src = comment.avatar;
+      commentElement.querySelector(".social__picture").alt = comment.name;
+      commentElement.querySelector(".social__picture").width = "35";
+      commentElement.querySelector(".social__picture").height = "35";
+      commentElement.querySelector(".social__text").textContent = comment.message;
       return commentElement;
     }
     for (var i = 0; i < picture.comments.length; i++){
