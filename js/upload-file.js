@@ -18,6 +18,7 @@
 
   uploadFile.showUploadFileOverlay = function() {
     picture.picturesContainer.removeEventListener("click", picture.pictureClickHandler);
+    picture.imageFiltersForm.removeEventListener("click", picture.imageFiltersFormClickHandler);
     uploadFile.uploadFileInput.removeEventListener("change", uploadFile.showUploadFileOverlay);
     imgUploadOverlay.classList.remove("hidden");
     uploadFileCancel.addEventListener("click", hideUploadFileOverlay);
@@ -36,6 +37,7 @@
     scalePin.removeEventListener("mousedown", scalePinMousedownHandler);
     imgUploadEffects.removeEventListener("change", effectChangeHandler);
     uploadFile.uploadFileInput.addEventListener("change", uploadFile.showUploadFileOverlay);
+    picture.imageFiltersForm.addEventListener("click", picture.imageFiltersFormClickHandler);
     picture.picturesContainer.addEventListener("click", picture.pictureClickHandler);
     scaleValue.removeEventListener("change", scaleValueChangeHandler);
   }
