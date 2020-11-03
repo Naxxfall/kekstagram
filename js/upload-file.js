@@ -16,11 +16,28 @@
   var imgUploadScale = imgUploadOverlay.querySelector(".img-upload__scale");
   var uploadHashtags = imgUploadOverlay.querySelector(".text__hashtags");
 
+  function showFilePreview() {
+    const FILE_TYPES = ["png", "jpeg", "jpg", "gif"];
+    var uploadedFile = uploadFile.uploadFileInput.files[0];
+    var fileName = uploadedFile.name.toLowerCase();
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+    if (matches) {
+      var reader = new FileReader();
+      reader.addEventListener("load", function () {
+        imgUploadPreview.querySelector("img").src = reader.result.toString();
+      });
+      reader.readAsDataURL(uploadedFile);
+    }
+  }
+
   uploadFile.showUploadFileOverlay = function() {
     picture.picturesContainer.removeEventListener("click", picture.pictureClickHandler);
     picture.imageFiltersForm.removeEventListener("click", picture.imageFiltersFormClickHandler);
     uploadFile.uploadFileInput.removeEventListener("change", uploadFile.showUploadFileOverlay);
     imgUploadOverlay.classList.remove("hidden");
+    showFilePreview();
     uploadFileCancel.addEventListener("click", hideUploadFileOverlay);
     uploadSubmit.addEventListener("click", uploadSubmitClickHandler);
     uploadFile.scaleLineParams = scaleLine.getBoundingClientRect();
@@ -33,6 +50,8 @@
   function hideUploadFileOverlay() {
     imgUploadOverlay.classList.add("hidden");
     uploadForm.reset();
+    uploadFile.currentEffect = "none";
+    scaleValue.changeValue(100);
     uploadSubmit.removeEventListener("click", uploadSubmitClickHandler);
     scalePin.removeEventListener("mousedown", scalePinMousedownHandler);
     imgUploadEffects.removeEventListener("change", effectChangeHandler);
@@ -50,7 +69,7 @@
   }
 
   function scaleValueChangeHandler(evt){
-    evt.preventDefault();
+    evt.preventDefault();;
     applyEffect(uploadFile.currentEffect, evt.target.value);
   }
 
